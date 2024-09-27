@@ -1,7 +1,7 @@
 package unit1;
 /**
- * Description: This program prints out hello world and hi
- * Date: Sept. 19, 2024
+ * Description: This program makes a bingo game
+ * Date: Sept. 26, 2024
  * @author Kenny Stewart
  */
 

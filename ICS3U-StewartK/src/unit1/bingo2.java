@@ -1,6 +1,16 @@
 package unit1;
+/**
+ * Description: This program makes a bingo game
+ * Date: Sept. 27, 2024
+ * @author Kenny Stewart
+ */
 
 public class bingo2 {
+	/**
+	 * Program for bingo game
+	 * @param args unused
+	 */
+
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -17,18 +27,6 @@ public class bingo2 {
 		System.out.println("5. Steps 1 to 4 are repeated until a player matches the BINGO pattern. \n");
 		
 		System.out.println("6. The winning player yells BINGO. \n");
-		
-		
-		//System.out.print("B");
-		//System.out.print("\t");
-		//System.out.print("I");
-		//System.out.print("\t");
-		//System.out.print("N");
-		//System.out.print("\t");
-		//System.out.print("G");
-		//System.out.print("\t");
-		//System.out.print("O");
-		//System.out.println("");
 		
 		System.out.format("B %8s %8s %8s %8s", "I", "N", "G", "O");
 		

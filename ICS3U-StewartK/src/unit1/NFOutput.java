@@ -26,6 +26,8 @@ public class NFOutput {
 		
 		//How can you change how your value is displayed?
 		//What other formats does NumberFormat offer?
+		//By changing the format
+		//getAvailableLocales, getCompactNumberInstance, getCurrencyInstance, getInstance, getIntegerInstance, getNumberInstance, getPercentInstance 
 
 
 		sc.close();

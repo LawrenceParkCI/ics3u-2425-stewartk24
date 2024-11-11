@@ -2,18 +2,20 @@ package unit1;
 import java.util.Scanner;
 
 /**
- * Description:
- * Date:
- * @author 
+ * Description: If Challenge 1
+ * Date: Nov. 11, 2024
+ * @author Kenny Stewart
  */
 
 public class IfChallenge {
 	public static void main(String[] args) { 
 		Scanner in = new Scanner(System.in);
 		int favNum;
+		int onesDigit;
 
 		System.out.println("What is your favourite number?");
 		favNum = in.nextInt();
+		onesDigit = favNum % 10;
 
 		if (favNum < 0) {
 			System.out.println("You need to look on the bright side of things");
@@ -26,7 +28,6 @@ public class IfChallenge {
 			System.out.println("You can keep the wholesome.");
 		}
 		
-		int onesDigit = favNum % 10;
 		if (onesDigit == 8) {
 			System.out.println("You are to full!");
 		}
@@ -37,31 +38,7 @@ public class IfChallenge {
 			System.out.println("Don't count on it.");
 		}
 
-
 		in.close();
-		/*
-
-    (IF)
-
-    ask for the user's favourite number.
-    if the number is negative, say that they need to look on
-    the bright side.  If their number is odd, say that it's a 
-    bit strange.
-
-    (IF, ELSE)
-
-    If their number is divisible by 3 and by 2, 
-    say that they should really consider thinking about 6, 
-    otherwise say they can keep wholesome.  
-
-    (IF, ELSE IF, ELSE)
-
-    Finally, if the 
-    ones digit of the number is 8, say that you too are full, 
-    if the ones digit is 9, say Canada is a nice country, 
-    and any other number should result in "don't count on 
-    it". 
-		 */
 
 
 	}

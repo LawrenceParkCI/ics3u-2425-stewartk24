@@ -15,9 +15,11 @@ public class finalProject {
 		//6x7 at start
 		//rows are horizontal
 		String choice;
+		String turn;
 		String [] modes = {"Add10", "Regular"};
 		Scanner sc = new Scanner(System.in);
 		int typeTime = 1; //regular is 25
+		int rowNum;
 		
 		String[] row1 = new String[7];
 		String[] row2 = new String[7];
@@ -50,8 +52,11 @@ public class finalProject {
 		PrintSlow("What mode would you like to play in? Type <Add10> or <Regular>", typeTime, true);
 		choice = sc.nextLine();
 		choice = AutoPickTable(modes, choice);
+		PrintSlow("Playing in " + choice + " mode", 1, true);
 		PrintSlow("Game starting...", 1, true);
-		RowsCreate(rowList);
+		PrintSlow("It's Reds first move. Type in what row you would you like to place your disk and press <Enter>", 1, true);
+		rowNum = sc.nextInt();
+		DiskPlace(rowList, rowNum);
 		
 		
 		
@@ -103,6 +108,11 @@ public class finalProject {
 		System.out.println("\n-----------------------------");
 		
 	};
+	
+	public static void DiskPlace (String[][] rows, int num) throws InterruptedException {
+		rows[6][num-1] = "R";
+		RowsCreate(rows);
+	}
 	
 	
 

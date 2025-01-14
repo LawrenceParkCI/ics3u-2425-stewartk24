@@ -17,9 +17,13 @@ public class finalProject {
 		String choice;
 		String turn;
 		String [] modes = {"Add10", "Regular"};
+		String [] players = {"Red", "Blue"};
 		Scanner sc = new Scanner(System.in);
 		int typeTime = 1; //regular is 25
 		int rowNum;
+		boolean gameActive = false;
+		
+		//add more commenting
 		
 		String[] row1 = new String[7];
 		String[] row2 = new String[7];
@@ -52,11 +56,27 @@ public class finalProject {
 		PrintSlow("What mode would you like to play in? Type <Add10> or <Regular>", typeTime, true);
 		choice = sc.nextLine();
 		choice = AutoPickTable(modes, choice);
+		gameActive = true;
 		PrintSlow("Playing in " + choice + " mode", 1, true);
 		PrintSlow("Game starting...", 1, true);
-		PrintSlow("It's Reds first move. Type in what row you would you like to place your disk and press <Enter>", 1, true);
-		rowNum = sc.nextInt();
-		DiskPlace(rowList, rowNum);
+		//PrintSlow("It's Reds first move. Type in what row you would you like to place your disk and press <Enter>", 1, true);
+		turn = players[(int) (Math.random() * 2)];
+		turn = "Red";
+		do {
+			//randomized messages maybe?
+			//make it so it has to be a number typed out
+			PrintSlow("It's " + turn + "'s move. Type in what row you would like to place your disk and press <Enter>", 1, true);
+			rowNum = sc.nextInt();
+			DiskPlace(rowList, rowNum, turn);
+			if (turn == "Red") {
+				turn = "Blue";
+			} else {
+				turn = "Red";
+			}
+			turn = "Red";
+		} while (gameActive == true);
+		//rowNum = sc.nextInt();
+		//DiskPlace(rowList, rowNum);
 		
 		
 		
@@ -81,7 +101,6 @@ public class finalProject {
 		boolean pass = false;
 		for (int i = 1; i < length; i++) { 
 			if (choice.equalsIgnoreCase(list[i])) {
-				System.out.println("equals the same");
 				pass = true;
 			}
 		};
@@ -109,11 +128,43 @@ public class finalProject {
 		
 	};
 	
-	public static void DiskPlace (String[][] rows, int num) throws InterruptedException {
-		rows[6][num-1] = "R";
+	public static void DiskPlace (String[][] rows, int num, String marker) throws InterruptedException {
+		//make it so it has "gravity
+		marker = marker.substring(0, 1);
+		boolean stopped = false;
+		for (int i = 1; i <= 6; i++) {
+			if (rows[i][num-1] != " ") {
+				rows[i-1][num-1] = marker;
+				stopped = true;
+			}
+		}
+		if (stopped == false) {
+			rows[6][num-1] = marker;
+		}
 		RowsCreate(rows);
+		Thread.sleep(100);
+		WinCheck(rows, marker);
 	}
 	
-	
+	public static void WinCheck (String[][] rows, String marker) throws InterruptedException {
+		//wondering how I should go about this
+		//i'll make it check vertically first, then horizontally
+		//after that, make it detect diagonal wins
+		
+		//DONT FORGET ROWS ARE HORIZONTAL
+		int streak = 0;
+		for (int i = 0; i < 7; i++) { 
+			System.out.println(i);
+			if (rows[i][0] == marker) {
+				streak = streak + 1;
+				//System.out.println(streak);
+			} else if (i != 6) {
+				streak = 0;
+			}
+			Thread.sleep(200);
+		}
+		System.out.println("streak at end: " + streak);
+		
+	}
 
 }

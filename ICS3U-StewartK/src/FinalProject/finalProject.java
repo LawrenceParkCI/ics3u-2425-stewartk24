@@ -5,8 +5,16 @@ package FinalProject;
 * @author Kenny Stewart
 */
 
+import hsa_new.Console;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
 public class finalProject {
+	static Console c = new Console(50, 150);
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		//add comments to this
@@ -20,6 +28,15 @@ public class finalProject {
 		int typeTime = 1; //regular is 25
 		int rowNum;
 		boolean gameActive = false;
+		
+		BufferedImage Connect4Table = null;
+		
+		try {
+			Connect4Table = ImageIO.read(new File("src/pictures/Connect4_Empty.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		c.drawImage(Connect4Table, 275, 200 , 639, 553, c);
 		
 		//add more commenting
 		
@@ -50,9 +67,9 @@ public class finalProject {
 		}
 		
 		PrintSlow("Welcome to Connect4! Press <Enter> to start.", typeTime, false);
-		choice = sc.nextLine();
+		choice = c.readLine();
 		PrintSlow("What mode would you like to play in? Type <Add10> or <Regular>", typeTime, true);
-		choice = sc.nextLine();
+		choice = c.readLine();
 		choice = AutoPickTable(modes, choice);
 		gameActive = true;
 		PrintSlow("Playing in " + choice + " mode", 1, true);
@@ -60,11 +77,21 @@ public class finalProject {
 		//PrintSlow("It's Reds first move. Type in what row you would you like to place your disk and press <Enter>", 1, true);
 		turn = players[(int) (Math.random() * 2)];
 		//turn = "Red";
+		
+		//int pos1 = 1;
+		//int pos2 = 6;
+		//rowList[pos1][pos2] = "B";
+		//rowList[pos1+1][pos2-1] = "B";
+		//rowList[pos1+2][pos2-2] = "B";
+		//rowList[pos1+3][pos2-3] = "B";
+		
 		do {
 			//randomized messages maybe?
 			//make it so it has to be a number typed out
+			c.clear();
+			c.drawImage(Connect4Table, 275, 200 , 639, 553, c);
 			PrintSlow("It's " + turn + "'s move. Type in what row you would like to place your disk and press <Enter>", 1, true);
-			rowNum = sc.nextInt();
+			rowNum = c.readInt();
 			String[][] newRow = DiskPlace(rowList, rowNum, turn);
 			//rows = newRow;
 			if (turn == "Red") {
@@ -74,7 +101,7 @@ public class finalProject {
 			}
 			//turn = "Red";
 		} while (gameActive == true);
-		//rowNum = sc.nextInt();
+		//rowNum = c.readInt();
 		//DiskPlace(rowList, rowNum);
 		
 		
@@ -84,11 +111,11 @@ public class finalProject {
 	
 	public static void PrintSlow (String str, int pause, boolean line) throws InterruptedException {
 		for (int i = 1; i < str.length() + 1; i++) {
-			System.out.print(str.substring(i - 1, i));
+			c.print(str.substring(i - 1, i));
 			Thread.sleep(pause);
 		}
 		if (line == true) {
-			System.out.println();
+			c.println();
 		}
 	};
 	
@@ -191,14 +218,14 @@ public class finalProject {
 							int sideDiagonal = -1; // negative is left, positive right
 							int upDiagonal = 1; // negative means up, positive is down. // fix this later, make it check every box
 							for (int i4 = 0; i4 < 4; i4++) {
-								//System.out.println("ring ring");
-								//System.out.println(rows[row + (i * upDiagonal)][column + (i * sideDiagonal)].equalsIgnoreCase(marker));
+								//c.println("ring ring");
+								//c.println(rows[row + (i * upDiagonal)][column + (i * sideDiagonal)].equalsIgnoreCase(marker));
 								if (row + (i4 * upDiagonal) > -1 && column + (i4 * sideDiagonal) > -1 && row + (i4 * upDiagonal) < 7 && column + (i4 * sideDiagonal) < 7) {
 									if (rows[row + (i4 * upDiagonal)][column + (i4 * sideDiagonal)].equalsIgnoreCase(marker)) {
 										streak3 = streak3 + 1;
 										if (streak3 > 3) {
 											won = true;
-											System.out.println("won diagonally. so cool! " + streak3);
+											c.println("won diagonally. so cool! " + streak3);
 										};
 									} else if (streak3 > 0) {
 										streak3 = 0;
@@ -217,7 +244,7 @@ public class finalProject {
 		//diagonal UP right, UP left
 		
 		if (won == true) {
-			System.out.println("Player has 4 in a row. They win!");
+			c.println("Player has 4 in a row. They win!");
 		}
 		
 		

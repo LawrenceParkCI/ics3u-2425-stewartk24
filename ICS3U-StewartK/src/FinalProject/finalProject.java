@@ -6,9 +6,7 @@ package FinalProject;
 */
 
 import java.util.Scanner;
-
 public class finalProject {
-
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub
 		//add comments to this
@@ -45,7 +43,7 @@ public class finalProject {
 				row7,
 		};	
 		
-		for (int i = 0; i < 7; i++) { 
+		for (int i = 0; i < 7; i++) {
 			for (int i2 = 0; i2 < 7; i2++) {
 				rowList[i][i2] = " ";
 			}
@@ -61,19 +59,20 @@ public class finalProject {
 		PrintSlow("Game starting...", 1, true);
 		//PrintSlow("It's Reds first move. Type in what row you would you like to place your disk and press <Enter>", 1, true);
 		turn = players[(int) (Math.random() * 2)];
-		turn = "Red";
+		//turn = "Red";
 		do {
 			//randomized messages maybe?
 			//make it so it has to be a number typed out
 			PrintSlow("It's " + turn + "'s move. Type in what row you would like to place your disk and press <Enter>", 1, true);
 			rowNum = sc.nextInt();
-			DiskPlace(rowList, rowNum, turn);
+			String[][] newRow = DiskPlace(rowList, rowNum, turn);
+			//rows = newRow;
 			if (turn == "Red") {
 				turn = "Blue";
 			} else {
 				turn = "Red";
 			}
-			turn = "Red";
+			//turn = "Red";
 		} while (gameActive == true);
 		//rowNum = sc.nextInt();
 		//DiskPlace(rowList, rowNum);
@@ -84,10 +83,9 @@ public class finalProject {
 	}
 	
 	public static void PrintSlow (String str, int pause, boolean line) throws InterruptedException {
-		for (int i = 1; i < str.length() + 1; i++) { 
+		for (int i = 1; i < str.length() + 1; i++) {
 			System.out.print(str.substring(i - 1, i));
 			Thread.sleep(pause);
-
 		}
 		if (line == true) {
 			System.out.println();
@@ -99,7 +97,7 @@ public class finalProject {
 		int length = list.length;
 		String newChoice = choice;
 		boolean pass = false;
-		for (int i = 1; i < length; i++) { 
+		for (int i = 1; i < length; i++) {
 			if (choice.equalsIgnoreCase(list[i])) {
 				pass = true;
 			}
@@ -128,12 +126,12 @@ public class finalProject {
 		
 	};
 	
-	public static void DiskPlace (String[][] rows, int num, String marker) throws InterruptedException {
-		//make it so it has "gravity
+	public static String[][] DiskPlace (String[][] rows, int num, String marker) throws InterruptedException {
+		//make it so it has "gravity"
 		marker = marker.substring(0, 1);
 		boolean stopped = false;
 		for (int i = 1; i <= 6; i++) {
-			if (rows[i][num-1] != " ") {
+			if (rows[i][num-1] != " " && stopped == false) {
 				rows[i-1][num-1] = marker;
 				stopped = true;
 			}
@@ -144,6 +142,7 @@ public class finalProject {
 		RowsCreate(rows);
 		Thread.sleep(100);
 		WinCheck(rows, marker);
+		return rows;
 	}
 	
 	public static void WinCheck (String[][] rows, String marker) throws InterruptedException {
@@ -152,19 +151,75 @@ public class finalProject {
 		//after that, make it detect diagonal wins
 		
 		//DONT FORGET ROWS ARE HORIZONTAL
-		int streak = 0;
-		for (int i = 0; i < 7; i++) { 
-			System.out.println(i);
-			if (rows[i][0] == marker) {
-				streak = streak + 1;
-				//System.out.println(streak);
-			} else if (i != 6) {
-				streak = 0;
+		int streak1 = 0;
+		int streak2 = 0;
+		int streak3 = 0;
+		int[] sides = {-1, 1};
+		int[] vert = {-1, 1};
+		int row = 0;
+		int column = 0;
+		boolean won = false;
+		for (int i2 = 0; i2 < 7; i2++) {
+			for (int i = 0; i < 7; i++) {
+				if (rows[i][i2].equalsIgnoreCase(marker)) {
+					streak1 = streak1 + 1;
+					if (streak1 > 3) {
+						won = true;
+					}
+				} else if (streak1 > 0) {
+					streak1 = 0;
+				}
+				//checks if they won vertically^
+				
+				if (rows[i2][i].equalsIgnoreCase(marker)) {
+					streak2 = streak2 + 1;
+					if (streak2 > 3) {
+						won = true;
+					}
+				} else if (streak2 > 0) {
+					streak2 = 0;
+				}
+				//checks if they won horizontally^
+				
+				row = i;
+				column = i2;
+				streak3 = 0;
+				if (rows[row][column].equalsIgnoreCase(marker)) {
+					for (int s = 0; s < 2; s++) {
+						if (won == false) {
+							streak3 = 0;
+							int sideDiagonal = -1; // negative is left, positive right
+							int upDiagonal = 1; // negative means up, positive is down. // fix this later, make it check every box
+							for (int i4 = 0; i4 < 4; i4++) {
+								//System.out.println("ring ring");
+								//System.out.println(rows[row + (i * upDiagonal)][column + (i * sideDiagonal)].equalsIgnoreCase(marker));
+								if (row + (i4 * upDiagonal) > -1 && column + (i4 * sideDiagonal) > -1 && row + (i4 * upDiagonal) < 7 && column + (i4 * sideDiagonal) < 7) {
+									if (rows[row + (i4 * upDiagonal)][column + (i4 * sideDiagonal)].equalsIgnoreCase(marker)) {
+										streak3 = streak3 + 1;
+										if (streak3 > 3) {
+											won = true;
+											System.out.println("won diagonally. so cool! " + streak3);
+										};
+									} else if (streak3 > 0) {
+										streak3 = 0;
+									}
+								}
+							}
+						}
+					}
+				}
 			}
-			Thread.sleep(200);
 		}
-		System.out.println("streak at end: " + streak);
+		
+		//for diagonal
+		//it should get to every single block and check if all the diagonal possibilities of them
+		//diagonal DOWN right, down diagonal left
+		//diagonal UP right, UP left
+		
+		if (won == true) {
+			System.out.println("Player has 4 in a row. They win!");
+		}
+		
 		
 	}
-
 }

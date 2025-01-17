@@ -23,7 +23,7 @@ public class finalProject {
 		String choice;
 		String turn;
 		String [] modes = {"Add10", "Regular"};
-		String [] players = {"Red", "Blue"};
+		String [] players = {"Red", "Yellow"};
 		Scanner sc = new Scanner(System.in);
 		int typeTime = 1; //regular is 25
 		int rowNum;
@@ -40,13 +40,13 @@ public class finalProject {
 		
 		//add more commenting
 		
-		String[] row1 = new String[7];
-		String[] row2 = new String[7];
-		String[] row3 = new String[7];
-		String[] row4 = new String[7];
-		String[] row5 = new String[7];
-		String[] row6 = new String[7];
-		String[] row7 = new String[7];
+		String[] row1 = new String[8];
+		String[] row2 = new String[8];
+		String[] row3 = new String[8];
+		String[] row4 = new String[8];
+		String[] row5 = new String[8];
+		String[] row6 = new String[8];
+		String[] row7 = new String[8];
 		
 		//making variables for each row
 		
@@ -89,17 +89,40 @@ public class finalProject {
 			//randomized messages maybe?
 			//make it so it has to be a number typed out
 			c.clear();
-			c.drawImage(Connect4Table, 275, 200 , 639, 553, c);
+			c.drawImage(Connect4Table, 275, 199 , 639, 553, c);
+			for (int i = 0; i < 7; i++) {
+				for (int i2 = 0; i2 < 7; i2++) {
+					if (rowList[i][i2] != " ") {
+						BufferedImage Marker = null;
+						try {
+							if (rowList[i][i2].equalsIgnoreCase("R")) {
+								//System.out.println("is red");
+								Marker = ImageIO.read(new File("src/pictures/RedMarker.png"));
+							} else {
+								//System.out.println("is yellow");
+								Marker = ImageIO.read(new File("src/pictures/YellowMarker.png"));
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						int amt1 = i2;
+						c.drawImage(Marker, 304 + (87 * i2), 229 + (87 * (i - 1)), 58, 58, c);
+					}
+				}
+			}
+			//c.drawImage(Marker, 304 + 87, 229 + (87), 58, 58, c);
 			PrintSlow("It's " + turn + "'s move. Type in what row you would like to place your disk and press <Enter>", 1, true);
 			rowNum = c.readInt();
+			//supposed to check whats at the top
+			System.out.println(rowList[0][rowNum + 1]);
 			String[][] newRow = DiskPlace(rowList, rowNum, turn);
 			//rows = newRow;
 			if (turn == "Red") {
-				turn = "Blue";
+				turn = "Yellow";
 			} else {
 				turn = "Red";
 			}
-			//turn = "Red";
+			turn = "Red";
 		} while (gameActive == true);
 		//rowNum = c.readInt();
 		//DiskPlace(rowList, rowNum);
@@ -166,9 +189,12 @@ public class finalProject {
 		if (stopped == false) {
 			rows[6][num-1] = marker;
 		}
+		
 		RowsCreate(rows);
 		Thread.sleep(100);
 		WinCheck(rows, marker);
+		
+		
 		return rows;
 	}
 	
@@ -244,7 +270,7 @@ public class finalProject {
 		//diagonal UP right, UP left
 		
 		if (won == true) {
-			c.println("Player has 4 in a row. They win!");
+			System.out.println("Player has 4 in a row. They win!");
 		}
 		
 		
